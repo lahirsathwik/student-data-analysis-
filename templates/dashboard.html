@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Student Analysis Dashboard</title>
+
+<style>
+.download-section {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.download-btn {
+    display: inline-block;
+    padding: 12px 22px;
+    background: #2563eb;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.download-btn:hover {
+    opacity: 0.9;
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    color: #222;
+}
+
+header {
+    background: #1e3a8a;
+    color: white;
+    padding: 25px;
+    text-align: center;
+}
+
+header h1 {
+    margin-bottom: 8px;
+}
+
+.container {
+    width: 92%;
+    max-width: 1400px;
+    margin: 30px auto;
+}
+
+
+/* SEARCH */
+
+.search-box {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+.search-box h2 {
+    margin-bottom: 15px;
+}
+
+.search-form {
+    display: flex;
+    gap: 10px;
+}
+
+.search-form input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 16px;
+}
+
+.search-form button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 7px;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+}
+
+.search-form button:hover {
+    background: #1d4ed8;
+}
+
+.not-found {
+    display: none;
+    margin-top: 15px;
+    padding: 12px;
+    background: #fee2e2;
+    color: #991b1b;
+    border-radius: 7px;
+    font-weight: bold;
+}
+
+
+/* CARDS */
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+.card h3 {
+    color: #666;
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.card .value {
+    font-size: 28px;
+    font-weight: bold;
+    color: #1e3a8a;
+}
+
+
+/* SECTIONS */
+
+.section {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+.section h2 {
+    margin-bottom: 20px;
+    color: #1e3a8a;
+}
+
+
+/* FILTER */
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.filters button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    background: #e5e7eb;
+    font-weight: bold;
+}
+
+.filters button:hover {
+    background: #d1d5db;
+}
+
+
+/* SORT */
+
+.sort-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.sort-buttons button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 7px;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+}
+
+.sort-buttons button:last-child {
+    background: #64748b;
+}
+
+.sort-buttons button:hover {
+    opacity: 0.9;
+}
+
+
+/* TABLE */
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px;
+}
+
+th {
+    background: #1e3a8a;
+    color: white;
+    padding: 13px;
+    text-align: center;
+}
+
+td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+    background: #f8fafc;
+}
+
+
+/* GRADE */
+
+.grade {
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.grade-A {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.grade-B {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.grade-C {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.grade-D {
+    background: #ffedd5;
+    color: #9a3412;
+}
+
+.grade-F {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.count-text {
+    margin-bottom: 15px;
+    color: #555;
+    font-weight: bold;
+}
+
+
+/* PAGINATION */
+
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    padding: 12px 24px;
+    margin: 5px;
+    border: none;
+    border-radius: 7px;
+    background: #2563eb;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.pagination button:hover {
+    background: #1d4ed8;
+}
+
+.pagination button:last-child {
+    background: #16a34a;
+}
+
+.pagination button:last-child:hover {
+    background: #15803d;
+}
+
+
+/* ANALYSIS */
+
+.analysis-info {
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.study-count {
+    margin-top: 15px;
+    color: #555;
+    font-weight: bold;
+}
+
+
+/* CHARTS */
+
+.charts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+}
+
+.chart-box {
+    text-align: center;
+}
+
+.chart-box img {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 10px;
+}
+
+
+/* BACK */
+
+.back-button {
+    display: inline-block;
+    padding: 12px 22px;
+    background: #1e3a8a;
+    color: white;
+    text-decoration: none;
+    border-radius: 7px;
+    margin-bottom: 30px;
+}
+
+.back-button:hover {
+    background: #172554;
+}
+
+
+/* FOOTER */
+
+footer {
+    background: #1e3a8a;
+    color: white;
+    text-align: center;
+    padding: 18px;
+    margin-top: 40px;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .container {
+        width: 95%;
+    }
+
+    .search-form {
+        flex-direction: column;
+    }
+
+    .search-form button {
+        width: 100%;
+    }
+
+    .charts {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>Student Data Analysis Dashboard</h1>
+
+<p>
+    Student Performance Monitoring System
+</p>
+<div class="download-section">
+
+    <a href="/download-report" class="download-btn">
+        Download Student Report
+    </a>
+
+</div>
+
+</header>
+
+
+<div class="container">
+
+
+<!-- SEARCH STUDENT -->
+
+<div class="search-box">
+
+<h2>Search Student</h2>
+
+<div class="search-form">
+
+<input
+    type="number"
+    id="studentSearch"
+    placeholder="Enter Student ID"
+>
+
+<button onclick="searchStudent()">
+    Search
+</button>
+
+<button onclick="showAllStudents()">
+    Show All
+</button>
+
+</div>
+
+<div id="notFound" class="not-found">
+    Student ID not found.
+</div>
+
+</div>
+
+
+<!-- SUMMARY CARDS -->
+
+<div class="cards">
+
+<div class="card">
+
+<h3>Total Students</h3>
+
+<div class="value">
+    {{ total_students }}
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>Average GPA</h3>
+
+<div class="value">
+    {{ average_gpa }}
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>Highest GPA</h3>
+
+<div class="value">
+    {{ highest_gpa }}
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>Topper ID</h3>
+
+<div class="value">
+    {{ topper }}
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ALL STUDENTS -->
+
+<div class="section">
+
+<h2>All Students</h2>
+
+
+<div class="filters">
+
+<button onclick="filterGrade('ALL')">
+    All
+</button>
+
+<button onclick="filterGrade('A')">
+    Grade A
+</button>
+
+<button onclick="filterGrade('B')">
+    Grade B
+</button>
+
+<button onclick="filterGrade('C')">
+    Grade C
+</button>
+
+<button onclick="filterGrade('D')">
+    Grade D
+</button>
+
+<button onclick="filterGrade('F')">
+    Grade F
+</button>
+
+</div>
+
+
+<div class="sort-buttons">
+
+<button onclick="sortStudents('high')">
+    GPA: High → Low
+</button>
+
+<button onclick="sortStudents('low')">
+    GPA: Low → High
+</button>
+
+</div>
+
+
+<div class="count-text">
+
+Showing
+<span id="visibleCount">10</span>
+students
+
+</div>
+
+
+<div class="table-container">
+
+<table id="studentTable">
+
+<thead>
+
+<tr>
+
+<th>Student ID</th>
+<th>Age</th>
+<th>Gender</th>
+<th>Study Time</th>
+<th>Absences</th>
+<th>GPA</th>
+<th>Grade</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="studentTableBody">
+
+{% for student in students %}
+
+<tr
+    class="student-row"
+    data-grade="{{ student.Grade }}"
+    data-student-id="{{ student.StudentID }}"
+>
+
+<td>
+    {{ student.StudentID }}
+</td>
+
+<td>
+    {{ student.Age }}
+</td>
+
+<td>
+    {{ student.Gender }}
+</td>
+
+<td>
+    {{ student.StudyTimeWeekly }}
+</td>
+
+<td>
+    {{ student.Absences }}
+</td>
+
+<td>
+    {{ "%.2f"|format(student.GPA) }}
+</td>
+
+<td>
+
+<span class="grade grade-{{ student.Grade }}">
+    {{ student.Grade }}
+</span>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<div class="pagination">
+
+<button
+    id="showMoreButton"
+    onclick="showMoreStudents()"
+>
+    Show More
+</button>
+
+<button
+    id="showAllButton"
+    onclick="showAllStudents()"
+>
+    Show All Students
+</button>
+
+</div>
+
+</div>
+
+
+<!-- STUDY TIME ANALYSIS -->
+
+<div class="section">
+
+<h2>Study Time vs Average GPA</h2>
+
+<div class="analysis-info">
+
+This analysis shows the average GPA of students
+based on their weekly study time.
+
+</div>
+
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Weekly Study Time</th>
+<th>Number of Students</th>
+<th>Average GPA</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="studyTableBody">
+
+{% for item in study_data %}
+
+<tr class="study-row">
+
+<td>
+    {{ item.StudyTimeWeekly }} hours
+</td>
+
+<td>
+    {{ item.Students }}
+</td>
+
+<td>
+    {{ item.AverageGPA }}
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<div class="study-count">
+
+Showing
+<span id="studyVisibleCount">10</span>
+study-time records
+
+</div>
+
+
+<div class="pagination">
+
+<button
+    id="studyShowMoreButton"
+    onclick="showMoreStudyData()"
+>
+    Show More
+</button>
+
+<button
+    id="studyShowAllButton"
+    onclick="showAllStudyData()"
+>
+    Show All Study Data
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ABSENCE ANALYSIS - FEATURE 20 -->
+
+<div class="section">
+
+<h2>Absence Analysis</h2>
+<!-- =========================================================
+     FEATURE 21 - GENDER-WISE ANALYSIS
+     ========================================================= -->
+
+<section class="analysis-section">
+
+    <h2>Gender-wise Analysis</h2>
+
+    <p>
+        This analysis shows the number of students and
+        average GPA based on gender.
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Gender</th>
+                <th>Number of Students</th>
+                <th>Average GPA</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for item in gender_data %}
+
+            <tr>
+                <td>{{ item.Gender }}</td>
+                <td>{{ item.Students }}</td>
+                <td>{{ item.AverageGPA }}</td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+    </table>
+
+</section>
+<!-- =========================================================
+     FEATURE 22 - PARENTAL SUPPORT ANALYSIS
+     ========================================================= -->
+
+<section class="analysis-section">
+
+    <h2>Parental Support Analysis</h2>
+
+    <p>
+        This analysis shows the number of students and
+        average GPA based on parental support.
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Parental Support</th>
+                <th>Number of Students</th>
+                <th>Average GPA</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for item in parental_support_data %}
+
+            <tr>
+                <td>{{ item.ParentalSupport }}</td>
+                <td>{{ item.Students }}</td>
+                <td>{{ item.AverageGPA }}</td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+    </table>
+
+</section>
+
+<div class="analysis-info">
+
+This analysis shows the number of students
+and average GPA based on their absence range.
+
+</div>
+
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Absence Range</th>
+<th>Number of Students</th>
+<th>Average GPA</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+
+{% for item in absence_data %}
+
+<tr>
+
+<td>
+    {{ item.AbsenceRange }}
+</td>
+
+<td>
+    {{ item.Students }}
+</td>
+
+<td>
+    {{ item.AverageGPA }}
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- TOP 10 STUDENTS -->
+
+<div class="section">
+
+<h2>Top 10 Students</h2>
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Rank</th>
+<th>Student ID</th>
+<th>GPA</th>
+<th>Grade</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+
+{% for student in top10 %}
+
+<tr>
+
+<td>
+    {{ loop.index }}
+</td>
+
+<td>
+    {{ student.StudentID }}
+</td>
+
+<td>
+    {{ student.GPA }}
+</td>
+
+<td>
+
+<span class="grade grade-{{ student.Grade }}">
+    {{ student.Grade }}
+</span>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- GRADE ANALYSIS -->
+
+<div class="section">
+
+<h2>Grade Analysis</h2>
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Grade</th>
+<th>Number of Students</th>
+<th>Percentage</th>
+<th>Average GPA</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+
+{% for grade in grade_analysis %}
+
+<tr>
+
+<td>
+
+<span class="grade grade-{{ grade.Grade }}">
+    {{ grade.Grade }}
+</span>
+
+</td>
+
+<td>
+    {{ grade.Students }}
+</td>
+
+<td>
+    {{ grade.Percentage }}%
+</td>
+
+<td>
+    {{ grade.AverageGPA }}
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- CHARTS -->
+
+<div class="section">
+
+<h2>Data Visualization</h2>
+
+<div class="charts">
+
+
+<div class="chart-box">
+
+<h3>
+    Top 10 GPA Comparison
+</h3>
+
+<br>
+
+<img
+    src="{{ url_for(
+        'static',
+        filename='charts/top10_gpa.png'
+    ) }}"
+    alt="Top 10 GPA Chart"
+>
+
+</div>
+
+
+<div class="chart-box">
+
+<h3>
+    Grade Distribution
+</h3>
+
+<br>
+
+<img
+    src="{{ url_for(
+        'static',
+        filename='charts/grade_distribution.png'
+    ) }}"
+    alt="Grade Distribution Chart"
+>
+
+</div>
+
+</div>
+
+</div>
+
+
+<a
+    href="/"
+    class="back-button"
+>
+    ← Back to Home
+</a>
+
+
+</div>
+
+
+<footer>
+
+<p>
+    Student Data Analysis System
+</p>
+
+<p>
+    Developed using Python Flask, Pandas, NumPy & Matplotlib
+</p>
+
+</footer>
+
+
+<script>
+
+
+/* STUDENT VARIABLES */
+
+let currentLimit = 10;
+
+let currentGrade = "ALL";
+
+let allRows = [];
+
+
+/* STUDY VARIABLES */
+
+let studyLimit = 10;
+
+let studyRows = [];
+
+
+/* INITIALIZE */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        allRows = Array.from(
+            document.querySelectorAll(
+                ".student-row"
+            )
+        );
+
+        studyRows = Array.from(
+            document.querySelectorAll(
+                ".study-row"
+            )
+        );
+
+        displayStudents();
+
+        displayStudyData();
+
+    }
+);
+
+
+/* DISPLAY STUDENTS */
+
+function displayStudents() {
+
+    let visibleRows = [];
+
+    allRows.forEach(function(row) {
+
+        const grade =
+            row.getAttribute(
+                "data-grade"
+            );
+
+        row.style.display = "none";
+
+        if (
+            currentGrade === "ALL" ||
+            grade === currentGrade
+        ) {
+
+            visibleRows.push(row);
+
+        }
+
+    });
+
+
+    const rowsToShow =
+        visibleRows.slice(
+            0,
+            currentLimit
+        );
+
+
+    rowsToShow.forEach(function(row) {
+
+        row.style.display = "";
+
+    });
+
+
+    document.getElementById(
+        "visibleCount"
+    ).textContent =
+        rowsToShow.length;
+
+
+    const showMoreButton =
+        document.getElementById(
+            "showMoreButton"
+        );
+
+
+    if (
+        currentLimit >=
+        visibleRows.length
+    ) {
+
+        showMoreButton.style.display =
+            "none";
+
+    } else {
+
+        showMoreButton.style.display =
+            "inline-block";
+
+    }
+
+}
+
+
+/* SHOW MORE STUDENTS */
+
+function showMoreStudents() {
+
+    currentLimit += 10;
+
+    displayStudents();
+
+}
+
+
+/* SHOW ALL STUDENTS */
+
+function showAllStudents() {
+
+    currentGrade = "ALL";
+
+    currentLimit =
+        allRows.length;
+
+    displayStudents();
+
+    document.getElementById(
+        "studentSearch"
+    ).value = "";
+
+    document.getElementById(
+        "notFound"
+    ).style.display = "none";
+
+}
+
+
+/* FILTER GRADE */
+
+function filterGrade(grade) {
+
+    currentGrade = grade;
+
+    currentLimit = 10;
+
+    document.getElementById(
+        "studentSearch"
+    ).value = "";
+
+    document.getElementById(
+        "notFound"
+    ).style.display = "none";
+
+    displayStudents();
+
+}
+
+
+/* SEARCH STUDENT */
+
+function searchStudent() {
+
+    const searchValue =
+        document.getElementById(
+            "studentSearch"
+        ).value.trim();
+
+
+    const notFound =
+        document.getElementById(
+            "notFound"
+        );
+
+
+    if (searchValue === "") {
+
+        notFound.style.display =
+            "block";
+
+        notFound.textContent =
+            "Please enter a Student ID.";
+
+        return;
+
+    }
+
+
+    let found = false;
+
+
+    allRows.forEach(function(row) {
+
+        const studentId =
+            row.getAttribute(
+                "data-student-id"
+            );
+
+
+        if (
+            studentId === searchValue
+        ) {
+
+            row.style.display = "";
+
+            found = true;
+
+        } else {
+
+            row.style.display = "none";
+
+        }
+
+    });
+
+
+    if (found) {
+
+        notFound.style.display =
+            "none";
+
+        document.getElementById(
+            "visibleCount"
+        ).textContent = "1";
+
+        document.getElementById(
+            "showMoreButton"
+        ).style.display = "none";
+
+    } else {
+
+        notFound.style.display =
+            "block";
+
+        notFound.textContent =
+            "Student ID not found.";
+
+        document.getElementById(
+            "visibleCount"
+        ).textContent = "0";
+
+        document.getElementById(
+            "showMoreButton"
+        ).style.display = "none";
+
+    }
+
+}
+
+
+/* SORT STUDENTS */
+
+function sortStudents(order) {
+
+    allRows.sort(function(a, b) {
+
+        const gpaA =
+            parseFloat(
+                a.children[5]
+                .textContent
+                .trim()
+            );
+
+
+        const gpaB =
+            parseFloat(
+                b.children[5]
+                .textContent
+                .trim()
+            );
+
+
+        if (order === "high") {
+
+            return gpaB - gpaA;
+
+        } else {
+
+            return gpaA - gpaB;
+
+        }
+
+    });
+
+
+    const tbody =
+        document.getElementById(
+            "studentTableBody"
+        );
+
+
+    allRows.forEach(function(row) {
+
+        tbody.appendChild(row);
+
+    });
+
+
+    currentLimit = 10;
+
+    displayStudents();
+
+}
+
+
+/* DISPLAY STUDY DATA */
+
+function displayStudyData() {
+
+    studyRows.forEach(function(row) {
+
+        row.style.display = "none";
+
+    });
+
+
+    const rowsToShow =
+        studyRows.slice(
+            0,
+            studyLimit
+        );
+
+
+    rowsToShow.forEach(function(row) {
+
+        row.style.display = "";
+
+    });
+
+
+    document.getElementById(
+        "studyVisibleCount"
+    ).textContent =
+        rowsToShow.length;
+
+
+    const button =
+        document.getElementById(
+            "studyShowMoreButton"
+        );
+
+
+    if (
+        studyLimit >=
+        studyRows.length
+    ) {
+
+        button.style.display =
+            "none";
+
+    } else {
+
+        button.style.display =
+            "inline-block";
+
+    }
+
+}
+
+
+/* SHOW MORE STUDY DATA */
+
+function showMoreStudyData() {
+
+    studyLimit += 10;
+
+    displayStudyData();
+
+}
+
+
+/* SHOW ALL STUDY DATA */
+
+function showAllStudyData() {
+
+    studyLimit =
+        studyRows.length;
+
+    displayStudyData();
+
+}
+
+</script>
+
+
+</body>
+
+</html>

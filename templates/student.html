@@ -1,0 +1,283 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Student Performance Report</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        .header {
+            background: #1f4e79;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .header p {
+            margin-top: 8px;
+        }
+
+        .report {
+            background: white;
+            width: 90%;
+            max-width: 800px;
+            margin: 35px auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px #d5dbe3;
+        }
+
+        .report-title {
+            text-align: center;
+            color: #1f4e79;
+            margin-bottom: 25px;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .detail {
+            background: #f5f8fc;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #1f4e79;
+        }
+
+        .detail strong {
+            display: block;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
+        .detail span {
+            font-size: 17px;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            text-align: center;
+            background: #eef5fb;
+            border-radius: 10px;
+        }
+
+        .result h2 {
+            color: #1f4e79;
+            margin-top: 0;
+        }
+
+        .gpa {
+            font-size: 32px;
+            font-weight: bold;
+            color: #1f4e79;
+        }
+
+        .grade {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .performance {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .buttons {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 22px;
+            margin: 5px;
+            background: #1f4e79;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .btn:hover {
+            background: #163a5c;
+        }
+
+        .dashboard-btn {
+            background: #2e7d32;
+        }
+
+        .dashboard-btn:hover {
+            background: #256628;
+        }
+
+        .footer {
+            text-align: center;
+            color: #777;
+            padding: 25px;
+        }
+
+        @media (max-width: 600px) {
+
+            .details {
+                grid-template-columns: 1fr;
+            }
+
+            .report {
+                width: 95%;
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<div class="header">
+
+    <h1>Student Performance Report</h1>
+
+    <p>Student Data Analysis System</p>
+
+</div>
+
+
+<div class="report">
+
+    <h2 class="report-title">
+        Student Performance Details
+    </h2>
+
+
+    <div class="details">
+
+        <div class="detail">
+            <strong>Student ID</strong>
+            <span>{{ student['StudentID'] }}</span>
+        </div>
+
+        <div class="detail">
+            <strong>Age</strong>
+            <span>{{ student['Age'] }}</span>
+        </div>
+
+        <div class="detail">
+            <strong>Gender</strong>
+            <span>{{ student['Gender'] }}</span>
+        </div>
+
+        <div class="detail">
+            <strong>Parental Education</strong>
+            <span>{{ student['ParentalEducation'] }}</span>
+        </div>
+
+        <div class="detail">
+            <strong>Study Time Weekly</strong>
+            <span>{{ "%.2f"|format(student['StudyTimeWeekly']) }} hours</span>
+        </div>
+
+        <div class="detail">
+            <strong>Absences</strong>
+            <span>{{ student['Absences'] }}</span>
+        </div>
+
+        <div class="detail">
+            <strong>Tutoring</strong>
+            <span>{{ student['Tutoring'] }}</span>
+        </div>
+
+        <div class="detail">
+            <strong>Parental Support</strong>
+            <span>{{ student['ParentalSupport'] }}</span>
+        </div>
+
+        <div class="detail">
+            <strong>Extracurricular</strong>
+            <span>{{ student['Extracurricular'] }}</span>
+        </div>
+
+        <div class="detail">
+            <strong>Sports</strong>
+            <span>{{ student['Sports'] }}</span>
+        </div>
+
+        <div class="detail">
+            <strong>Music</strong>
+            <span>{{ student['Music'] }}</span>
+        </div>
+
+        <div class="detail">
+            <strong>Volunteering</strong>
+            <span>{{ student['Volunteering'] }}</span>
+        </div>
+
+    </div>
+
+
+    <div class="result">
+
+        <h2>Academic Result</h2>
+
+        <div class="gpa">
+            GPA: {{ "%.2f"|format(student['GPA']) }}
+        </div>
+
+        <div class="grade">
+            Grade: {{ student['Grade'] }}
+        </div>
+
+        <div class="performance">
+            {{ performance }}
+        </div>
+
+    </div>
+
+
+    <div class="buttons">
+
+        <a class="btn" href="/">
+            Search Another Student
+        </a>
+
+        <a class="btn dashboard-btn" href="/dashboard">
+            View Dashboard
+        </a>
+
+    </div>
+
+</div>
+
+
+<div class="footer">
+
+    Student Data Analysis System © 2026
+
+</div>
+
+
+</body>
+</html>
+```
